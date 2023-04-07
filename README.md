@@ -1,7 +1,7 @@
 # glossika skipper
 batch start and end time setup for m3u playlist tracks
 
-Skip glossika introduction and finalization for every track. 
+Skip glossika introduction and finalization on each track. 
 
 Just create a m3u playlist file. 
 Run the batch in this file. 
