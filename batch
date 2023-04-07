@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-set "file_path=your_file_path_here"
+set "file_path=replace_here"
 
 (for /f "tokens=* delims=" %%a in ('type "%file_path%"') do (
   set "line=%%a"
