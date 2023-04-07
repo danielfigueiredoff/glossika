@@ -1,4 +1,4 @@
-# glossika
+# glossika skipper
 batch start and end time setup for m3u playlist tracks
 
 Skip anonnying glossika introduction and finalization for every track. 
