@@ -1,0 +1,26 @@
+@echo off
+setlocal EnableDelayedExpansion
+
+set "file_path=your_file_path_here"
+
+for /f "delims=" %%a in ('findstr /n "^" "%file_path%"') do (
+  set "line=%%a"
+  set "line=!line:*:=!"
+  
+  if "!prev_line!"=="#EXTINF" (
+    echo #EXTVLCOPT:start-time=12 >> temp_file.txt
+    
+    set "extinf=!line!"
+    set "extinf=!extinf:#EXTINF:=!"
+    set /a "stop_time=!extinf!-17"
+    
+    echo #EXTVLCOPT:stop-time=!stop_time! >> temp_file.txt
+  )
+  
+  echo !line! >> temp_file.txt
+  set "prev_line=!line!"
+)
+
+move /y temp_file.txt "%file_path%"
+
+echo Done.
