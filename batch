@@ -3,23 +3,21 @@ setlocal EnableDelayedExpansion
 
 set "file_path=your_file_path_here"
 
-for /f "delims=" %%a in ('findstr /n "^" "%file_path%"') do (
+(for /f "tokens=* delims=" %%a in ('type "%file_path%"') do (
   set "line=%%a"
-  set "line=!line:*:=!"
-  
-  if "!prev_line!"=="#EXTINF" (
-    echo #EXTVLCOPT:start-time=12 >> temp_file.txt
-    
-    set "extinf=!line!"
-    set "extinf=!extinf:#EXTINF:=!"
-    set /a "stop_time=!extinf!-17"
-    
-    echo #EXTVLCOPT:stop-time=!stop_time! >> temp_file.txt
+  set "line=!line:EXTINF=EXTINF2!"
+  if not "!line!"=="%%a" (
+    echo #EXTVLCOPT:start-time=12
+    for /f "tokens=2 delims=:" %%b in ("!line!") do (
+      set "num=%%b"
+      set "num=!num:~0,-4!"
+      set /a "stop_time=num-17"
+      echo #EXTVLCOPT:stop-time=!stop_time!
+    )
   )
-  
-  echo !line! >> temp_file.txt
-  set "prev_line=!line!"
-)
+  set "line=!line:EXTINF2=EXTINF!"
+  echo !line!
+)) > temp_file.txt
 
 move /y temp_file.txt "%file_path%"
 
